@@ -1,8 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vanguard.Bootstrapper", "Vanguard.Bootstrapper\Vanguard.Bootstrapper.csproj", "{4A9A5043-1A13-45DF-B7BA-19E7AAD37BB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vanguard.Installer", "Vanguard.Installer\Vanguard.Installer.csproj", "{E1E6B953-3CD8-4DD1-8944-1F7D54A5577E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A9A5043-1A13-45DF-B7BA-19E7AAD37BB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9A5043-1A13-45DF-B7BA-19E7AAD37BB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A9A5043-1A13-45DF-B7BA-19E7AAD37BB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A9A5043-1A13-45DF-B7BA-19E7AAD37BB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1E6B953-3CD8-4DD1-8944-1F7D54A5577E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1E6B953-3CD8-4DD1-8944-1F7D54A5577E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1E6B953-3CD8-4DD1-8944-1F7D54A5577E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1E6B953-3CD8-4DD1-8944-1F7D54A5577E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
