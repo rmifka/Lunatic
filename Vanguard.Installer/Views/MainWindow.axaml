@@ -1,20 +1,45 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:Vanguard.Installer.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Vanguard.Installer.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="Vanguard.Installer">
+<sukiUi:SukiWindow xmlns="https://github.com/avaloniaui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:vm="using:Vanguard.Installer.ViewModels"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="450"
+                   x:Class="Vanguard.Installer.Views.MainWindow"
+                   x:DataType="vm:MainWindowViewModel"
+                   xmlns:sukiUi="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+                   Icon="/Assets/avalonia-logo.ico"
+                   Title="Vanguard.Installer"
+                   Background="#131313"
+                   ExtendClientAreaToDecorationsHint="True"
+                   ExtendClientAreaChromeHints="NoChrome"
+                   WindowStartupLocation="CenterScreen"
+                   PointerPressed="OnPointerPressed">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <!-- This only sets the DataContext for the previewer in an IDE, it does not affect the actual application -->
+        <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <sukiUi:SukiSideMenu IsSearchEnabled="False" ItemsSource="{Binding MenuItems}">
+        <sukiUi:SukiSideMenu.ItemTemplate>
+            <DataTemplate>
+                <sukiUi:SukiSideMenuItem Header="{Binding Header}" Classes="Compact">
+                    <sukiUi:SukiSideMenuItem.Icon>
+                        <Image Source="{Binding IconPath}" Width="16" Height="16"/>
+                    </sukiUi:SukiSideMenuItem.Icon>
+                    <sukiUi:SukiSideMenuItem.PageContent>
+                        <ContentControl Content="{Binding PageContent}"/>
+                    </sukiUi:SukiSideMenuItem.PageContent>
+                </sukiUi:SukiSideMenuItem>
+            </DataTemplate>
+        </sukiUi:SukiSideMenu.ItemTemplate>
 
-</Window>
+        <sukiUi:SukiSideMenu.HeaderContent>
+            <!-- Header Content -->
+        </sukiUi:SukiSideMenu.HeaderContent>
+
+        <sukiUi:SukiSideMenu.FooterContent>
+            <!-- Footer Content -->
+        </sukiUi:SukiSideMenu.FooterContent>
+    </sukiUi:SukiSideMenu>
+</sukiUi:SukiWindow>

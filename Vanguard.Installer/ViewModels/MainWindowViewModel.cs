@@ -1,8 +1,13 @@
-﻿namespace Vanguard.Installer.ViewModels;
+﻿using System.Collections.ObjectModel;
+using Vanguard.Installer.Models;
 
-public partial class MainWindowViewModel : ViewModelBase
+namespace Vanguard.Installer.ViewModels
 {
-#pragma warning disable CA1822 // Mark members as static
-    public string Greeting => "Welcome to Avalonia!";
-#pragma warning restore CA1822 // Mark members as static
+    public partial class MainWindowViewModel : ViewModelBase
+    {
+        public ObservableCollection<MenuItem> MenuItems { get; } = new ObservableCollection<MenuItem>
+        {
+            
+        };
+    }
 }
