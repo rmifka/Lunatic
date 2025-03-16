@@ -1,4 +1,3 @@
-Absolutely! Here's a **more casual, friendly version** of the README — great for making the project approachable while still professional:
 
 ---
 
@@ -119,5 +118,3 @@ Made by [YourName/TeamName] with love for the Unity modding community.
 Big thanks to Harmony, Avalonia, and SukiUI for making this possible!
 
 ---
-
-If you want, I can also generate this with proper markdown formatting to copy straight into GitHub. Let me know!
