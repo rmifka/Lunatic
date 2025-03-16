@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vanguard.Loader", "Vanguard
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vanguard.Public", "Vanguard.Public\Vanguard.Public.csproj", "{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vanguard.TestModule", "Vanguard.TestModule\Vanguard.TestModule.csproj", "{4D82A7C7-0A0C-4366-9D7F-E7CA1507D87E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D82A7C7-0A0C-4366-9D7F-E7CA1507D87E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D82A7C7-0A0C-4366-9D7F-E7CA1507D87E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D82A7C7-0A0C-4366-9D7F-E7CA1507D87E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D82A7C7-0A0C-4366-9D7F-E7CA1507D87E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

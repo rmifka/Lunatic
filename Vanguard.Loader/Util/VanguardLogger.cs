@@ -5,14 +5,14 @@ using Vanguard.Public.Interfaces;
 
 namespace Vanguard.Loader.Util;
 
-public class Logger : IDisposable, ILogger
+public class VanguardLogger : IDisposable, IVanguardLogger
 {
     private readonly static string DirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Vanguard_Logs");
     private readonly static string LogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Vanguard_Logs", "VanguardLoader.vlog");
 
     private readonly StreamWriter _fileWriter;
 
-    public Logger()
+    public VanguardLogger()
     {
         if (!Directory.Exists(DirectoryPath))
         {

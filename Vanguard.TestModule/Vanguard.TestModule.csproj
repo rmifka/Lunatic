@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <GameDir>A:\SteamLibrary\steamapps\common\Fears to Fathom - Woodbury Getaway</GameDir>
+        <ManagedDir>$(GameDir)\Fears to Fathom - Woodbury Getaway_Data\Managed</ManagedDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Vanguard.Public\Vanguard.Public.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="UnityEngine.CoreModule">
+        <HintPath>$(ManagedDir)/UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+    
+    <Target Name="CopyToGame" AfterTargets="Build">
+        <Copy SourceFiles="$(OutputPath)\Vanguard.TestModule.dll" DestinationFolder="$(GameDir)\Mods" />
+    </Target>
+    
+
+</Project>

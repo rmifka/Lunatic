@@ -11,29 +11,29 @@ namespace Vanguard.Loader;
 
 public class EntryPoint
 {
-    private readonly static ILogger Logger = new Logger();
+    private readonly static IVanguardLogger VanguardLogger = new VanguardLogger();
     private readonly static string ModuleDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Mods");
     private readonly static string LibraryDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libraries");
     private readonly static List<IModule> Modules = [];
 
     public static void Initialize()
     {
-        Logger.Info("Vanguard.Loader initialized.");
+        VanguardLogger.Info("Vanguard.Loader initialized.");
 
         EnsureDirectory(ModuleDirectory, "Mods");
         EnsureDirectory(LibraryDirectory, "Libraries");
 
-        Logger.Info("Vanguard.Loader finished initializing libraries.");
+        VanguardLogger.Info("Vanguard.Loader finished initializing libraries.");
 
         InitializeHarmony();
         LoadModules();
 
         foreach (var module in Modules)
         {
-            module.Initialize(Logger);
+            module.Initialize(VanguardLogger);
         }
 
-        Logger.Info("Vanguard.Loader finished initializing modules.");
+        VanguardLogger.Info("Vanguard.Loader finished initializing modules.");
     }
 
     private static void EnsureDirectory(string path, string name)
@@ -41,7 +41,7 @@ public class EntryPoint
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
-            Logger.Info($"Created {name} directory.");
+            VanguardLogger.Info($"Created {name} directory.");
         }
     }
 
@@ -54,24 +54,25 @@ public class EntryPoint
             try
             {
                 var modAssembly = Assembly.LoadFrom(assemblyPath);
-                Logger.Info($"Loaded mod assembly: {assemblyPath}");
 
-                // Find all types that implement IModule
                 var moduleTypes = modAssembly.GetTypes()
-                    .Where(t => typeof(IModule).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+                    .Where(t =>
+                        typeof(IModule).IsAssignableFrom(t)
+                        && !t.IsInterface
+                        && !t.IsAbstract);
 
                 foreach (var type in moduleTypes)
                 {
                     if (Activator.CreateInstance(type) is IModule moduleInstance)
                     {
                         Modules.Add(moduleInstance);
-                        Logger.Info($"Registered module: {type.FullName}");
+                        VanguardLogger.Info($"Registered module: {type.FullName}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error($"Failed to load mod: {assemblyPath} - {ex}");
+                VanguardLogger.Error($"Failed to load mod: {assemblyPath} - {ex}");
             }
         }
     }
@@ -79,16 +80,16 @@ public class EntryPoint
 
     private static void InitializeHarmony()
     {
-        Logger.Info("Initializing Harmony patches...");
+        VanguardLogger.Info("Initializing Harmony patches...");
         try
         {
             var harmony = new Harmony("com.vanguard.loader");
             harmony.PatchAll();
-            Logger.Info("Harmony patches applied successfully.");
+            VanguardLogger.Info("Harmony patches applied successfully.");
         }
         catch (Exception ex)
         {
-            Logger.Error($"Harmony failed to initialize: {ex}");
+            VanguardLogger.Error($"Harmony failed to initialize: {ex}");
         }
     }
 }

@@ -2,5 +2,5 @@
 
 public interface IModule
 {
-    void Initialize(ILogger logger);
+    void Initialize(IVanguardLogger vanguardLogger);
 }

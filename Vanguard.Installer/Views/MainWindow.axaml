@@ -34,7 +34,7 @@
                 <TextBlock Text="Vanguard Installer"
                            VerticalAlignment="Center"
                            Foreground="White"
-                           FontWeight="Bold"
+                           FontWeight="Medium"
                            FontSize="14" />
 
                 <!-- Spacer -->

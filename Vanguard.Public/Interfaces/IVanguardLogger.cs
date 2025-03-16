@@ -2,7 +2,7 @@
 
 namespace Vanguard.Public.Interfaces;
 
-public interface ILogger
+public interface IVanguardLogger
 {
     void Log(string message);
     void Critical(string message);
