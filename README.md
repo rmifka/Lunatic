@@ -64,6 +64,9 @@ public class MyCoolMod : IModule
 
 4. Drop your compiled `.dll` into the game’s `Mods` folder. That's it!
 
+There is a comprehensive TestModule in this repo.
+https://github.com/rmifka/Vanguard/blob/96d07e0e44c9c66a0dad0368d05f23c99230363e/Vanguard.TestModule/Module.cs#L6-L16
+
 ---
 
 ## 💻 Installing Vanguard
