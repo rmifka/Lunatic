@@ -5,16 +5,8 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Vanguard.Public\Vanguard.Public.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Interfaces\"/>
-    </ItemGroup>
-
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Copy SourceFiles="$(OutputPath)Vanguard.Loader.dll"
+        <Copy SourceFiles="$(OutputPath)Vanguard.Public.dll"
               DestinationFolder="$(ProjectDir)../Vanguard.Installer/Resources/"/>
     </Target>
 

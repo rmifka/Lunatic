@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Vanguard.Public.Interfaces;
 
 namespace Vanguard.Loader.Util;
 

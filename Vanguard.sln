@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vanguard.Installer", "Vangu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vanguard.Loader", "Vanguard.Loader\Vanguard.Loader.csproj", "{AEDEC5FA-E94C-43AE-8C09-4AE21CB5E7A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vanguard.Public", "Vanguard.Public\Vanguard.Public.csproj", "{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{AEDEC5FA-E94C-43AE-8C09-4AE21CB5E7A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEDEC5FA-E94C-43AE-8C09-4AE21CB5E7A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEDEC5FA-E94C-43AE-8C09-4AE21CB5E7A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

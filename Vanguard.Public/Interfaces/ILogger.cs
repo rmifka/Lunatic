@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vanguard.Loader;
+namespace Vanguard.Public.Interfaces;
 
 public interface ILogger
 {
