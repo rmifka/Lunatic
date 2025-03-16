@@ -114,7 +114,7 @@ MIT. Do whatever you want, just don’t sue me.
 
 ## ❤️ Credits
 
-Made by [YourName/TeamName] with love for the Unity modding community.  
+Originally made by Renschi with love for the Unity modding community.  
 Big thanks to Harmony, Avalonia, and SukiUI for making this possible!
 
 ---
