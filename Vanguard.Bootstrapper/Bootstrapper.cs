@@ -30,7 +30,7 @@ namespace Vanguard.Bootstrapper
                 }
 
                 var loaderAssembly = Assembly.LoadFrom(loaderPath);
-                var entryType = loaderAssembly.GetType("Vanguard.Loader.Entry");
+                var entryType = loaderAssembly.GetType("Vanguard.Loader.EntryPoint");
                 var initMethod = entryType?.GetMethod("Initialize", BindingFlags.Public | BindingFlags.Static);
 
                 if (initMethod != null)
@@ -51,7 +51,7 @@ namespace Vanguard.Bootstrapper
 
         public static class VanguardBootstrapperLogger
         {
-            private readonly static string LogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VanguardBootstrapper.vlog");
+            private readonly static string LogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Vanguard_Logs", "VanguardBootstrapper.vlog");
 
             public static void Log(string message)
             {

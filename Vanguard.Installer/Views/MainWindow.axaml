@@ -58,7 +58,7 @@
         <!-- Main Content -->
         <StackPanel Grid.Row="1" Margin="20" Spacing="16">
 
-            <TextBlock Text="Vanguard Mod Installer"
+            <TextBlock Text="Vanguard Installer"
                        FontSize="24"
                        FontWeight="Bold"
                        HorizontalAlignment="Center"
