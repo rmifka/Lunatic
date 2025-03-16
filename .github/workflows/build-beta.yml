@@ -1,0 +1,49 @@
+name: Build Vanguard Solution
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        os: [ windows-latest, ubuntu-latest ]
+        architecture: [ win-x64, win-x86, linux-x64 ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore Vanguard.sln
+
+      - name: Build Vanguard.Bootstrapper
+        run: dotnet build Vanguard.Bootstrapper/Vanguard.Bootstrapper.csproj --configuration Release --self-contained --runtime ${{ matrix.architecture }} /p:PublishSingleFile=true /p:PublishTrimmed=true
+
+      - name: Build Vanguard.Public
+        run: dotnet build Vanguard.Public/Vanguard.Public.csproj --configuration Release --self-contained --runtime ${{ matrix.architecture }} /p:PublishSingleFile=true /p:PublishTrimmed=true
+
+      - name: Build Vanguard.Loader
+        run: dotnet build Vanguard.Loader/Vanguard.Loader.csproj --configuration Release --self-contained --runtime ${{ matrix.architecture }} /p:PublishSingleFile=true /p:PublishTrimmed=true
+
+      - name: Build Vanguard.Installer
+        run: dotnet build Vanguard.Installer/Vanguard.Installer.csproj --configuration Release --self-contained --runtime ${{ matrix.architecture }} /p:PublishSingleFile=true /p:PublishTrimmed=true
+
+      - name: Create release directory
+        run: mkdir -p release
+
+      - name: Copy build artifacts
+        run: cp -r Vanguard.Installer/bin/Release/net9.0/${{ matrix.architecture }}/* release/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: vanguard-build-${{ matrix.architecture }}
+          path: release/
