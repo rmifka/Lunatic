@@ -5,11 +5,10 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
-
+    runs-on: ubuntu-latest
+    
     strategy:
       matrix:
-        os: [ windows-latest, ubuntu-latest ]
         architecture: [ win-x64, win-x86, linux-x64 ]
 
     steps:
