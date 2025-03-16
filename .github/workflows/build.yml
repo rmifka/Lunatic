@@ -1,0 +1,44 @@
+name: Build Vanguard Solution
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'Vanguard.TestModule/**'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - 'Vanguard.TestModule/**'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore Vanguard.sln
+
+      - name: Build the solution
+        run: dotnet build Vanguard.sln --configuration Release
+
+      - name: Create release directory
+        run: mkdir -p release
+
+      - name: Copy build artifacts
+        run: cp -r path/to/build/output/* release/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: vanguard-build
+          path: release/
