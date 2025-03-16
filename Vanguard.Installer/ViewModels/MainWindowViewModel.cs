@@ -1,13 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Avalonia.Controls;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Vanguard.Bootstrapper;
 using Vanguard.Installer.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
@@ -16,10 +17,10 @@ public partial class MainWindowViewModel : ViewModelBase
     private string gamePath;
 
     [ObservableProperty]
-    private string status = "Unknown";
+    private string log = "> Ready.";
 
     [ObservableProperty]
-    private string log = "> Ready.";
+    private string status = "Unknown";
 
     [RelayCommand]
     private async Task Browse()
@@ -54,11 +55,17 @@ public partial class MainWindowViewModel : ViewModelBase
             var assemblyPath = Path.Combine(managedPath, "UnityEngine.CoreModule.dll");
             var backupPath = Path.Combine(managedPath, "UnityEngine.CoreModule.original.dll");
             var bootstrapperPath = Path.Combine(managedPath, "Vanguard.Bootstrapper.dll");
+            var loaderPath = Path.Combine(managedPath, "Vanguard.Loader.dll");
+            var publicPath = Path.Combine(managedPath, "Vanguard.Public.dll");
 
             BackupOriginalAssembly(assemblyPath, backupPath);
             CopyBootstrapper(bootstrapperPath);
+            CopyLoader(loaderPath);
+            CopyPublic(publicPath);
 
             InjectBootstrapper(managedPath, assemblyPath);
+
+            CopyExternalLibraries();
 
             Status = "Vanguard successfully installed!";
         }
@@ -66,6 +73,32 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Status = $"Error during installation: {ex.Message}";
             AppendLog($" Error > {ex.Message}");
+        }
+    }
+
+    private void CopyExternalLibraries()
+    {
+        var externalLibraries = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ExternalLibraries");
+
+        if (!Directory.Exists(externalLibraries))
+        {
+            AppendLog("External libraries not found.");
+            return;
+        }
+
+        var libraryDirectory = Path.Combine(GamePath, "Libraries");
+        if (!Directory.Exists(libraryDirectory))
+        {
+            Directory.CreateDirectory(libraryDirectory);
+        }
+
+        var files = Directory.GetFiles(externalLibraries, "*.dll");
+        foreach (var file in files)
+        {
+            var fileName = Path.GetFileName(file);
+            var destFile = Path.Combine(libraryDirectory, fileName);
+            File.Copy(file, destFile, true);
+            AppendLog($"Copied {fileName} to Libraries folder.");
         }
     }
 
@@ -90,7 +123,21 @@ public partial class MainWindowViewModel : ViewModelBase
     private void CopyBootstrapper(string bootstrapperPath)
     {
         var sourceBootstrapper = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Vanguard.Bootstrapper.dll");
-        File.Copy(sourceBootstrapper, bootstrapperPath, overwrite: true);
+        File.Copy(sourceBootstrapper, bootstrapperPath, true);
+        Status = "Bootstrapper copied.";
+    }
+
+    private void CopyLoader(string bootstrapperPath)
+    {
+        var sourceBootstrapper = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Vanguard.Loader.dll");
+        File.Copy(sourceBootstrapper, bootstrapperPath, true);
+        Status = "Bootstrapper copied.";
+    }
+
+    private void CopyPublic(string bootstrapperPath)
+    {
+        var sourceBootstrapper = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Vanguard.Public.dll");
+        File.Copy(sourceBootstrapper, bootstrapperPath, true);
         Status = "Bootstrapper copied.";
     }
 
@@ -111,6 +158,12 @@ public partial class MainWindowViewModel : ViewModelBase
         }
 
         var awakeMethod = monoBehaviour.Methods.FirstOrDefault(m => m.Name == "Awake");
+
+        if (awakeMethod != null)
+        {
+            monoBehaviour.Methods.Remove(awakeMethod);
+        }
+
         if (awakeMethod == null)
         {
             awakeMethod = new MethodDefinition("Awake",
@@ -122,8 +175,8 @@ public partial class MainWindowViewModel : ViewModelBase
             il.Append(il.Create(OpCodes.Ret));
         }
 
-        var initMethod = module.ImportReference(typeof(Vanguard.Bootstrapper.Bootstrapper)
-            .GetMethod(nameof(Vanguard.Bootstrapper.Bootstrapper.Init)));
+        var initMethod = module.ImportReference(typeof(Bootstrapper)
+            .GetMethod(nameof(Bootstrapper.Init)));
 
         var processor = awakeMethod.Body.GetILProcessor();
         var firstInstruction = awakeMethod.Body.Instructions.First();
@@ -131,6 +184,18 @@ public partial class MainWindowViewModel : ViewModelBase
         processor.InsertBefore(firstInstruction, processor.Create(OpCodes.Call, initMethod));
 
         assemblyDefinition.Write(assemblyPath + ".new");
+        var backupPath = Path.Combine(managedPath, "UnityEngine.CoreModule.original.dll");
+        assemblyDefinition.Dispose();
+
+        if (File.Exists(backupPath))
+        {
+            AppendLog("Deleting original assembly...");
+            File.Delete(assemblyPath);
+            AppendLog("Renaming new assembly...");
+            File.Move(assemblyPath + ".new", assemblyPath);
+        }
+
+        AppendLog("Injection completed.");
     }
 
 
@@ -146,19 +211,34 @@ public partial class MainWindowViewModel : ViewModelBase
         AppendLog("Starting uninstallation...");
         try
         {
-            var loaderTarget = Path.Combine(GamePath, "Vanguard.Loader.dll");
-
-            if (File.Exists(loaderTarget))
+            var dataFolders = LocateDataFolder(GamePath);
+            if (dataFolders.Length == 0)
             {
-                File.Delete(loaderTarget);
-                AppendLog("Vanguard.Loader.dll removed.");
+                AppendLog("Not a Unity game folder");
+                return;
+            }
+
+            var managedPath = Path.Combine(dataFolders[0], "Managed");
+            var assemblyPath = Path.Combine(managedPath, "UnityEngine.CoreModule.dll");
+            var backupPath = Path.Combine(managedPath, "UnityEngine.CoreModule.original.dll");
+            var bootstrapperPath = Path.Combine(managedPath, "Vanguard.Bootstrapper.dll");
+            var loaderPath = Path.Combine(managedPath, "Vanguard.Loader.dll");
+            var publicPath = Path.Combine(managedPath, "Vanguard.Public.dll");
+
+            if (File.Exists(backupPath))
+            {
+                File.Delete(assemblyPath);
+                File.Move(backupPath, assemblyPath);
+                File.Delete(bootstrapperPath);
+                File.Delete(loaderPath);
+                File.Delete(publicPath);
+                AppendLog("Uninstallation completed.");
+                Status = "Uninstalled";
             }
             else
             {
-                AppendLog("Vanguard is not installed in selected path.");
+                AppendLog("Backup not found. Nothing to uninstall.");
             }
-
-            CheckIfVanguardInstalled(GamePath);
         }
         catch (Exception ex)
         {
@@ -198,9 +278,10 @@ public partial class MainWindowViewModel : ViewModelBase
 
         var managedPath = Path.Combine(dataFolders[0], "Managed");
         var loaderPath = Path.Combine(managedPath, "Vanguard.Loader.dll");
+        var publicPath = Path.Combine(managedPath, "Vanguard.Public.dll");
 
 
-        Status = File.Exists(loaderPath) ? "Installed" : "Not Installed";
+        Status = File.Exists(loaderPath) && File.Exists(publicPath) ? "Installed" : "Not Installed";
     }
 
     private void AppendLog(string message)

@@ -10,10 +10,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Interfaces\"/>
+      <Reference Include="0Harmony">
+        <HintPath>..\ExternalLibraries\0Harmony.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Delete Files="$(ProjectDir)../Vanguard.Installer/Resources/Vanguard.Loader.dll"/>
+
         <Copy SourceFiles="$(OutputPath)Vanguard.Loader.dll"
               DestinationFolder="$(ProjectDir)../Vanguard.Installer/Resources/"/>
     </Target>

@@ -5,8 +5,11 @@
     </PropertyGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Delete Files="$(ProjectDir)../Vanguard.Installer/Resources/Vanguard.Bootstrapper.dll"/>
         <Copy SourceFiles="$(OutputPath)Vanguard.Bootstrapper.dll"
               DestinationFolder="$(ProjectDir)../Vanguard.Installer/Resources/"/>
+        <Copy SourceFiles="$(ProjectDir)../ExternalLibraries/0Harmony.dll"
+              DestinationFolder="$(ProjectDir)../Vanguard.Installer/ExternalLibraries/"/>
     </Target>
 
 </Project>

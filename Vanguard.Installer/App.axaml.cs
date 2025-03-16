@@ -1,17 +1,13 @@
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
-using System.Linq;
 using Avalonia.Markup.Xaml;
-using Avalonia.Styling;
-using SukiUI;
-using Vanguard.Installer.ViewModels;
 using Vanguard.Installer.Views;
 
 namespace Vanguard.Installer;
 
-public partial class App : Application
+public class App : Application
 {
     public override void Initialize()
     {
@@ -27,10 +23,10 @@ public partial class App : Application
             DisableAvaloniaDataAnnotationValidation();
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                DataContext = new MainWindowViewModel()
             };
         }
-        
+
         base.OnFrameworkInitializationCompleted();
     }
 

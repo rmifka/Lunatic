@@ -7,26 +7,57 @@ namespace Vanguard.Bootstrapper
 {
     public static class Bootstrapper
     {
+        private readonly static string LibraryDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libraries");
+
+        private static void LoadHarmony()
+        {
+            var libFiles = Directory.GetFiles(LibraryDirectory, "0Harmony*.dll");
+
+            foreach (var libPath in libFiles)
+            {
+                try
+                {
+                    Assembly.LoadFrom(libPath);
+                    VanguardBootstrapperLogger.Log($"Loaded library: {libPath}");
+                }
+                catch (Exception ex)
+                {
+                    VanguardBootstrapperLogger.Log($"Failed to load library: {libPath} - {ex}");
+                }
+            }
+        }
+
         public static void Init()
         {
             const string vanguardLoader = "Vanguard.Loader";
             const string vanguardPublic = "Vanguard.Public";
 
+            if (AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName.Contains(vanguardLoader)))
+            {
+                VanguardBootstrapperLogger.Log("Bootstrapper already initialized!");
+                VanguardBootstrapperLogger.Omit();
+                return;
+            }
+
+            if (!Directory.Exists("Vanguard_Logs"))
+            {
+                Directory.CreateDirectory("Vanguard_Logs");
+            }
+
             try
             {
-                var baseDir = AppDomain.CurrentDomain.BaseDirectory;
-
-                var publicPath = Path.Combine(baseDir, $"{vanguardPublic}.dll");
-                Assembly.Load(publicPath);
-
-                if (AppDomain.CurrentDomain.GetAssemblies().Any(a => a.GetName().Name == vanguardLoader))
-                {
-                    return;
-                }
-
+                LoadHarmony();
                 VanguardBootstrapperLogger.Log("Bootstrapper Initialized!");
 
-                var loaderPath = Path.Combine(baseDir, $"{vanguardLoader}.dll");
+                var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                var dataFolders = Directory.GetDirectories(baseDir, "*_Data", SearchOption.TopDirectoryOnly);
+                var managedPath = Path.Combine(dataFolders[0], "Managed");
+
+                var publicPath = Path.Combine(managedPath, $"{vanguardPublic}.dll");
+                Assembly.LoadFrom(publicPath);
+                VanguardBootstrapperLogger.Log($"{vanguardPublic} loaded!");
+
+                var loaderPath = Path.Combine(managedPath, $"{vanguardLoader}.dll");
 
                 if (!File.Exists(loaderPath))
                 {
@@ -56,10 +87,18 @@ namespace Vanguard.Bootstrapper
 
         public static class VanguardBootstrapperLogger
         {
-            private readonly static string LogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Vanguard_Logs", "VanguardBootstrapper.vlog");
+            private readonly static string LogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Vanguard_Logs",
+                $"VanguardBootstrapper.{DateTime.Now:yyyy-MM-dd}.vlog");
+
+            private static bool ShouldLog = true;
 
             public static void Log(string message)
             {
+                if (!ShouldLog)
+                {
+                    return;
+                }
+
                 try
                 {
                     using (var writer = new StreamWriter(LogFilePath, true))
@@ -72,6 +111,12 @@ namespace Vanguard.Bootstrapper
                 {
                     Console.WriteLine($"[Vanguard] Logger Error: {ex}");
                 }
+            }
+
+            public static void Omit()
+            {
+                // stop logging
+                ShouldLog = false;
             }
         }
     }

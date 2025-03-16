@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Vanguard.Loader.Util;
 using Vanguard.Public.Interfaces;
+using HarmonyLib;
 
 namespace Vanguard.Loader;
 
@@ -19,22 +20,12 @@ public class EntryPoint
     {
         Logger.Info("Vanguard.Loader initialized.");
 
-        if (!Directory.Exists(ModuleDirectory))
-        {
-            Directory.CreateDirectory(ModuleDirectory);
-            Logger.Info("Created Mods directory.");
-        }
-
-        if (!Directory.Exists(LibraryDirectory))
-        {
-            Directory.CreateDirectory(LibraryDirectory);
-            Logger.Info("Created Libraries directory.");
-        }
-
-        LoadLibraries();
+        EnsureDirectory(ModuleDirectory, "Mods");
+        EnsureDirectory(LibraryDirectory, "Libraries");
 
         Logger.Info("Vanguard.Loader finished initializing libraries.");
 
+        InitializeHarmony();
         LoadModules();
 
         foreach (var module in Modules)
@@ -45,52 +36,59 @@ public class EntryPoint
         Logger.Info("Vanguard.Loader finished initializing modules.");
     }
 
+    private static void EnsureDirectory(string path, string name)
+    {
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+            Logger.Info($"Created {name} directory.");
+        }
+    }
+
     private static void LoadModules()
     {
-        var assemblies = Directory.GetFiles(ModuleDirectory, "*.dll");
+        var assemblyFiles = Directory.GetFiles(ModuleDirectory, "*.dll");
 
-        foreach (var assembly in assemblies)
+        foreach (var assemblyPath in assemblyFiles)
         {
             try
             {
-                Assembly.LoadFrom(assembly);
+                var modAssembly = Assembly.LoadFrom(assemblyPath);
+                Logger.Info($"Loaded mod assembly: {assemblyPath}");
 
-                // Get the module type
-                var moduleType = Assembly.GetExecutingAssembly()
-                    .GetTypes()
-                    .FirstOrDefault(t => t.BaseType == typeof(IModule));
+                // Find all types that implement IModule
+                var moduleTypes = modAssembly.GetTypes()
+                    .Where(t => typeof(IModule).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
 
-                if (moduleType != null)
+                foreach (var type in moduleTypes)
                 {
-                    var module = (IModule)Activator.CreateInstance(moduleType);
-                    Modules.Add(module);
+                    if (Activator.CreateInstance(type) is IModule moduleInstance)
+                    {
+                        Modules.Add(moduleInstance);
+                        Logger.Info($"Registered module: {type.FullName}");
+                    }
                 }
-
-
-                Logger.Info($"Loaded library: {assembly}");
             }
             catch (Exception ex)
             {
-                Logger.Error($"Failed to load library: {assembly} - {ex}");
+                Logger.Error($"Failed to load mod: {assemblyPath} - {ex}");
             }
         }
     }
 
-    private static void LoadLibraries()
-    {
-        var assemblies = Directory.GetFiles(LibraryDirectory, "*.dll");
 
-        foreach (var assembly in assemblies)
+    private static void InitializeHarmony()
+    {
+        Logger.Info("Initializing Harmony patches...");
+        try
         {
-            try
-            {
-                Assembly.LoadFrom(assembly);
-                Logger.Info($"Loaded library: {assembly}");
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Failed to load library: {assembly} - {ex}");
-            }
+            var harmony = new Harmony("com.vanguard.loader");
+            harmony.PatchAll();
+            Logger.Info("Harmony patches applied successfully.");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error($"Harmony failed to initialize: {ex}");
         }
     }
 }

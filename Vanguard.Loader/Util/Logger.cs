@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Vanguard.Public.Interfaces;
 
@@ -27,9 +28,90 @@ public class Logger : IDisposable, ILogger
         _fileWriter = new StreamWriter(LogFilePath, true) { AutoFlush = true };
     }
 
+    public void Dispose()
+    {
+        _fileWriter?.Dispose();
+    }
+
+    public void Log(string message)
+    {
+        LogInternal(message, "INFO", ConsoleColor.White);
+    }
+
+    public void Critical(string message)
+    {
+        LogInternal(message, "CRITICAL", ConsoleColor.DarkMagenta);
+    }
+
+    public void Error(string message)
+    {
+        LogInternal(message, "ERROR", ConsoleColor.Red);
+    }
+
+    public void Warning(string message)
+    {
+        LogInternal(message, "WARNING", ConsoleColor.Yellow);
+    }
+
+    public void Info(string message)
+    {
+        LogInternal(message, "INFO", ConsoleColor.White);
+    }
+
+    public void Debug(string message)
+    {
+        LogInternal(message, "DEBUG", ConsoleColor.Cyan);
+    }
+
+    public void Trace(string message)
+    {
+        LogInternal(message, "TRACE", ConsoleColor.Gray);
+    }
+
+    public void Log(object obj)
+    {
+        Log(obj.ToString());
+    }
+
+    public void Critical(object obj)
+    {
+        Critical(obj.ToString());
+    }
+
+    public void Error(object obj)
+    {
+        Error(obj.ToString());
+    }
+
+    public void Warning(object obj)
+    {
+        Warning(obj.ToString());
+    }
+
+    public void Info(object obj)
+    {
+        Info(obj.ToString());
+    }
+
+    public void Debug(object obj)
+    {
+        Debug(obj.ToString());
+    }
+
+    public void Trace(object obj)
+    {
+        Trace(obj.ToString());
+    }
+
+    public void LogException(Exception ex)
+    {
+        Error(ex.Message);
+        Error(ex.StackTrace);
+    }
+
     private static string GetCaller()
     {
-        var stackTrace = new System.Diagnostics.StackTrace();
+        var stackTrace = new StackTrace();
         var methodBase = stackTrace.GetFrame(3).GetMethod();
         return $"{methodBase.ReflectedType?.Name}.{methodBase.Name}";
     }
@@ -42,32 +124,5 @@ public class Logger : IDisposable, ILogger
         Console.WriteLine(logMessage);
         Console.ResetColor();
         _fileWriter.WriteLine(logMessage);
-    }
-
-    public void Log(string message) => LogInternal(message, "INFO", ConsoleColor.White);
-    public void Critical(string message) => LogInternal(message, "CRITICAL", ConsoleColor.DarkMagenta);
-    public void Error(string message) => LogInternal(message, "ERROR", ConsoleColor.Red);
-    public void Warning(string message) => LogInternal(message, "WARNING", ConsoleColor.Yellow);
-    public void Info(string message) => LogInternal(message, "INFO", ConsoleColor.White);
-    public void Debug(string message) => LogInternal(message, "DEBUG", ConsoleColor.Cyan);
-    public void Trace(string message) => LogInternal(message, "TRACE", ConsoleColor.Gray);
-
-    public void Log(object obj) => Log(obj.ToString());
-    public void Critical(object obj) => Critical(obj.ToString());
-    public void Error(object obj) => Error(obj.ToString());
-    public void Warning(object obj) => Warning(obj.ToString());
-    public void Info(object obj) => Info(obj.ToString());
-    public void Debug(object obj) => Debug(obj.ToString());
-    public void Trace(object obj) => Trace(obj.ToString());
-
-    public void LogException(Exception ex)
-    {
-        Error(ex.Message);
-        Error(ex.StackTrace);
-    }
-
-    public void Dispose()
-    {
-        _fileWriter?.Dispose();
     }
 }

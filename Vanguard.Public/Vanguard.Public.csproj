@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Delete Files="$(ProjectDir)../Vanguard.Installer/Resources/Vanguard.Public.dll"/>
         <Copy SourceFiles="$(OutputPath)Vanguard.Public.dll"
               DestinationFolder="$(ProjectDir)../Vanguard.Installer/Resources/"/>
     </Target>

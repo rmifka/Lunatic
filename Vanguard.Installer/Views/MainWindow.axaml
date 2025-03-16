@@ -1,8 +1,6 @@
 <controls:SukiWindow
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:suki="clr-namespace:SukiUI;assembly=SukiUI"
-    xmlns:vm="clr-namespace:Vanguard.Installer"
     xmlns:controls="https://github.com/kikipoulet/SukiUI"
     xmlns:global="clr-namespace:"
     Title="Vanguard Installer"

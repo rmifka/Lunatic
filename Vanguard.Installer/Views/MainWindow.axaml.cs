@@ -1,7 +1,5 @@
-using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 
 namespace Vanguard.Installer.Views;
 
@@ -16,5 +14,4 @@ public partial class MainWindow : Window
     {
         BeginMoveDrag(e);
     }
-    
 }
