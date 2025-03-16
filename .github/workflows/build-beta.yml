@@ -34,7 +34,7 @@ jobs:
         run: dotnet build Vanguard.Loader/Vanguard.Loader.csproj --configuration Release
 
       - name: Build Vanguard.Installer
-        run: dotnet build Vanguard.Installer/Vanguard.Installer.csproj --configuration Release --self-contained --runtime ${{ matrix.architecture }} /p:PublishSingleFile=true /p:PublishTrimmed=true
+        run: dotnet publish Vanguard.Installer/Vanguard.Installer.csproj --configuration Release --self-contained --runtime ${{ matrix.architecture }}
 
       - name: Create release directory
         run: mkdir -p release
