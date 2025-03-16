@@ -25,7 +25,6 @@ public class EntryPoint
 
         VanguardLogger.Info("Vanguard.Loader finished initializing libraries.");
 
-        InitializeHarmony();
         LoadModules();
 
         foreach (var module in Modules)
@@ -61,6 +60,8 @@ public class EntryPoint
                         && !t.IsInterface
                         && !t.IsAbstract);
 
+                InitializeHarmony(modAssembly);
+
                 foreach (var type in moduleTypes)
                 {
                     if (Activator.CreateInstance(type) is IModule moduleInstance)
@@ -78,13 +79,12 @@ public class EntryPoint
     }
 
 
-    private static void InitializeHarmony()
+    private static void InitializeHarmony(Assembly assembly)
     {
         VanguardLogger.Info("Initializing Harmony patches...");
         try
         {
-            var harmony = new Harmony("com.vanguard.loader");
-            harmony.PatchAll();
+            HarmonyInstance.PatchAll(assembly);
             VanguardLogger.Info("Harmony patches applied successfully.");
         }
         catch (Exception ex)
@@ -92,4 +92,7 @@ public class EntryPoint
             VanguardLogger.Error($"Harmony failed to initialize: {ex}");
         }
     }
+
+
+    private readonly static Harmony HarmonyInstance = new("com.Vanguard.Loader");
 }

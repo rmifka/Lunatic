@@ -13,7 +13,8 @@
     ExtendClientAreaChromeHints="NoChrome"
     ExtendClientAreaTitleBarHeightHint="32"
     TransparencyLevelHint="AcrylicBlur"
-    CanResize="False">
+    CanResize="False"
+    WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <global:MainWindowViewModel />
