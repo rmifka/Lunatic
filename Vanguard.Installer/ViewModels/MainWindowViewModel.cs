@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -139,6 +140,27 @@ public partial class MainWindowViewModel : ViewModelBase
         var sourceBootstrapper = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Vanguard.Public.dll");
         File.Copy(sourceBootstrapper, bootstrapperPath, true);
         Status = "Bootstrapper copied.";
+    }
+
+    public void InstallMods(string[] dllFiles)
+    {
+        var modsFolder = Path.Combine(GamePath, "Mods");
+        if (!Directory.Exists(modsFolder))
+        {
+            Directory.CreateDirectory(modsFolder);
+        }
+
+        AppendLog($"Copying mods to Mods folder... {modsFolder}");
+
+        foreach (var file in dllFiles)
+        {
+            var fileName = Path.GetFileName(file);
+            var destFile = Path.Combine(modsFolder, fileName);
+            AppendLog($"Copying {fileName} to Mods folder... + {destFile}");
+
+            File.Copy(file, destFile, true);
+            AppendLog($"Copied {fileName} to Mods folder.");
+        }
     }
 
     private void InjectBootstrapper(string managedPath, string assemblyPath)

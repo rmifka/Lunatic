@@ -5,7 +5,7 @@
     xmlns:global="clr-namespace:"
     Title="Vanguard Installer"
     Width="500"
-    Height="500"
+    Height="600"
     x:Class="Vanguard.Installer.Views.MainWindow"
     x:DataType="global:MainWindowViewModel"
     Background="#131313"
@@ -83,6 +83,17 @@
             <ScrollViewer Height="150">
                 <TextBlock Text="{Binding Log}" TextWrapping="Wrap" Foreground="White" />
             </ScrollViewer>
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="16">
+                <TextBlock Text="Drag and Drop Mods Here" FontSize="16" FontWeight="Bold" Foreground="White"
+                           HorizontalAlignment="Center" />
+                <Border BorderBrush="Gray" CornerRadius="10" BorderThickness="2" Background="#1E1E1E" Padding="20"
+                        DragDrop.AllowDrop="True">
+                    <TextBlock Text="Drop files here" Foreground="Gray" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Border>
+            </StackPanel>
+
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
                 <Button Content="GitHub" Command="{Binding OpenGitHubCommand}" />
