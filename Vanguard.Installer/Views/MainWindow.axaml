@@ -1,45 +1,96 @@
-<sukiUi:SukiWindow xmlns="https://github.com/avaloniaui"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                   xmlns:vm="using:Vanguard.Installer.ViewModels"
-                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                   mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="450"
-                   x:Class="Vanguard.Installer.Views.MainWindow"
-                   x:DataType="vm:MainWindowViewModel"
-                   xmlns:sukiUi="clr-namespace:SukiUI.Controls;assembly=SukiUI"
-                   Icon="/Assets/avalonia-logo.ico"
-                   Title="Vanguard.Installer"
-                   Background="#131313"
-                   ExtendClientAreaToDecorationsHint="True"
-                   ExtendClientAreaChromeHints="NoChrome"
-                   WindowStartupLocation="CenterScreen"
-                   PointerPressed="OnPointerPressed">
+<controls:SukiWindow
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:suki="clr-namespace:SukiUI;assembly=SukiUI"
+    xmlns:vm="clr-namespace:Vanguard.Installer"
+    xmlns:controls="https://github.com/kikipoulet/SukiUI"
+    xmlns:global="clr-namespace:"
+    Title="Vanguard Installer"
+    Width="500"
+    Height="500"
+    x:Class="Vanguard.Installer.Views.MainWindow"
+    x:DataType="global:MainWindowViewModel"
+    Background="#131313"
+    ExtendClientAreaToDecorationsHint="True"
+    ExtendClientAreaChromeHints="NoChrome"
+    ExtendClientAreaTitleBarHeightHint="32"
+    TransparencyLevelHint="AcrylicBlur"
+    CanResize="False">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE, it does not affect the actual application -->
-        <vm:MainWindowViewModel />
-    </Design.DataContext>
+    <Window.DataContext>
+        <global:MainWindowViewModel />
+    </Window.DataContext>
 
-    <sukiUi:SukiSideMenu IsSearchEnabled="False" ItemsSource="{Binding MenuItems}">
-        <sukiUi:SukiSideMenu.ItemTemplate>
-            <DataTemplate>
-                <sukiUi:SukiSideMenuItem Header="{Binding Header}" Classes="Compact">
-                    <sukiUi:SukiSideMenuItem.Icon>
-                        <Image Source="{Binding IconPath}" Width="16" Height="16"/>
-                    </sukiUi:SukiSideMenuItem.Icon>
-                    <sukiUi:SukiSideMenuItem.PageContent>
-                        <ContentControl Content="{Binding PageContent}"/>
-                    </sukiUi:SukiSideMenuItem.PageContent>
-                </sukiUi:SukiSideMenuItem>
-            </DataTemplate>
-        </sukiUi:SukiSideMenu.ItemTemplate>
+    <Grid RowDefinitions="Auto, *" Margin="0">
 
-        <sukiUi:SukiSideMenu.HeaderContent>
-            <!-- Header Content -->
-        </sukiUi:SukiSideMenu.HeaderContent>
+        <!-- Custom TopBar -->
+        <Border Background="#1E1E1E"
+                Height="32"
+                VerticalAlignment="Top"
+                PointerPressed="OnPointerPressed">
+            <Grid ColumnDefinitions="*, Auto, Auto, Auto"
+                  VerticalAlignment="Center"
+                  Margin="8,0,8,0">
 
-        <sukiUi:SukiSideMenu.FooterContent>
-            <!-- Footer Content -->
-        </sukiUi:SukiSideMenu.FooterContent>
-    </sukiUi:SukiSideMenu>
-</sukiUi:SukiWindow>
+                <!-- App Title -->
+                <TextBlock Text="Vanguard Installer"
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           FontWeight="Bold"
+                           FontSize="14" />
+
+                <!-- Spacer -->
+                <Rectangle Grid.Column="1"
+                           Width="8"
+                           Fill="Transparent" />
+
+                <!-- Close Button -->
+                <Button Grid.Column="3"
+                        Content="X"
+                        FontSize="8"
+                        Command="{Binding CloseCommand}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center" />
+
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <StackPanel Grid.Row="1" Margin="20" Spacing="16">
+
+            <TextBlock Text="Vanguard Mod Installer"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Foreground="White" />
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBox Text="{Binding GamePath, Mode=TwoWay}"
+                         Width="350"
+                         Watermark="Select game folder..." />
+                <Button Content="Browse" Command="{Binding BrowseCommand}" />
+            </StackPanel>
+
+            <TextBlock Text="{Binding Status}"
+                       Foreground="Gray"
+                       FontSize="14" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
+                <Button Content="Install Vanguard" Command="{Binding InstallCommand}" />
+                <Button Content="Uninstall Vanguard" Command="{Binding UninstallCommand}" />
+            </StackPanel>
+
+            <TextBlock Text="Log:" FontWeight="Bold" Foreground="White" />
+            <ScrollViewer Height="150">
+                <TextBlock Text="{Binding Log}" TextWrapping="Wrap" Foreground="White" />
+            </ScrollViewer>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                <Button Content="GitHub" Command="{Binding OpenGitHubCommand}" />
+                <Button Content="About" Command="{Binding AboutCommand}" />
+            </StackPanel>
+
+        </StackPanel>
+
+    </Grid>
+</controls:SukiWindow>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Vanguard.Bootstrapper
@@ -10,7 +11,13 @@ namespace Vanguard.Bootstrapper
         {
             try
             {
-                Console.WriteLine("[Vanguard] Bootstrapper Initialized!");
+                // If already loaded skip
+                if (AppDomain.CurrentDomain.GetAssemblies().Any(a => a.GetName().Name == "Vanguard.Loader"))
+                {
+                    return;
+                }
+
+                VanguardBootstrapperLogger.Log("Bootstrapper Initialized!");
 
                 var baseDir = AppDomain.CurrentDomain.BaseDirectory;
                 var modsDir = Path.Combine(baseDir, "Mods");
@@ -18,7 +25,7 @@ namespace Vanguard.Bootstrapper
 
                 if (!File.Exists(loaderPath))
                 {
-                    Console.WriteLine("[Vanguard] Vanguard.Loader.dll not found at: " + loaderPath);
+                    VanguardBootstrapperLogger.Log("Vanguard.Loader.dll not found at: " + loaderPath);
                     return;
                 }
 
@@ -29,16 +36,37 @@ namespace Vanguard.Bootstrapper
                 if (initMethod != null)
                 {
                     initMethod.Invoke(null, null);
-                    Console.WriteLine("[Vanguard] Vanguard.Loader initialized!");
+                    VanguardBootstrapperLogger.Log("Vanguard.Loader initialized!");
                 }
                 else
                 {
-                    Console.WriteLine("[Vanguard] Could not find Initialize method in Loader.");
+                    VanguardBootstrapperLogger.Log("Could not find Initialize method in Loader.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Vanguard] Bootstrapper Error: {ex}");
+                VanguardBootstrapperLogger.Log($"Bootstrapper Error: {ex}");
+            }
+        }
+
+        public static class VanguardBootstrapperLogger
+        {
+            private readonly static string LogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VanguardBootstrapper.vlog");
+
+            public static void Log(string message)
+            {
+                try
+                {
+                    using (var writer = new StreamWriter(LogFilePath, true))
+                    {
+                        writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {message}");
+                        Console.WriteLine($"[Vanguard] {message}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[Vanguard] Logger Error: {ex}");
+                }
             }
         }
     }
