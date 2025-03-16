@@ -29,14 +29,23 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Vanguard.sln
 
-      - name: Build the solution
-        run: dotnet build Vanguard.sln --configuration Release
+      - name: Build Vanguard.Bootstrapper
+        run: dotnet build Vanguard.Bootstrapper/Vanguard.Bootstrapper.csproj --configuration Release
+
+      - name: Build Vanguard.Public
+        run: dotnet build Vanguard.Public/Vanguard.Public.csproj --configuration Release
+
+      - name: Build Vanguard.Loader
+        run: dotnet build Vanguard.Loader/Vanguard.Loader.csproj --configuration Release
+
+      - name: Build Vanguard.Installer
+        run: dotnet build Vanguard.Installer/Vanguard.Installer.csproj --configuration Release
 
       - name: Create release directory
         run: mkdir -p release
 
       - name: Copy build artifacts
-        run: cp -r path/to/build/output/* release/
+        run: cp -r Vanguard.Installer/bin/Release/* release/
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
