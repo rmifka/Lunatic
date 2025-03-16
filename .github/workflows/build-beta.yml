@@ -46,22 +46,3 @@ jobs:
         with:
           name: vanguard-build-${{ matrix.architecture }}
           path: release/
-
-      - name: Install GitHub CLI
-        run: sudo apt-get install gh
-
-      - name: Install Ruby and GitHub Changelog Generator
-        run: |
-          sudo apt-get install ruby-full
-          gem install github_changelog_generator
-
-      - name: Generate Changelog
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-        run: github_changelog_generator -u rmifka -p Vanguard
-
-      - name: Create GitHub Beta Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-        run: |
-          gh release create beta-$(date +%Y%m%d%H%M%S) ./release/* --title "Beta Release" --notes-file CHANGELOG.md
