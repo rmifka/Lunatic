@@ -1,16 +1,16 @@
 
 ---
 
-# 🎮 Vanguard Modding Framework
+# 🎮 Lunatic Modding Framework
 
-Welcome to **Vanguard** — a **super lightweight, just-magic modding framework** for Unity games!  
+Welcome to **Lunatic** — a **super lightweight, just-magic modding framework** for Unity games!  
 If you’re tired of overcomplicated mod frameworks and just want something clean and simple, this is for you.  
 
 ---
 
-## ✨ What is Vanguard?
+## ✨ What is Lunatic?
 
-Vanguard is a small but powerful system that lets you **load mods into Unity games** with **zero bloat**.  
+Lunatic is a small but powerful system that lets you **load mods into Unity games** with **zero bloat**.  
 It has a modular design so you only get what you need — no weird magic, just straight-up mod loading.
 
 ---
@@ -28,8 +28,8 @@ It has a modular design so you only get what you need — no weird magic, just s
 
 ## 🛠 How Does It Work?
 
-1. Use the **Installer App** to set up Vanguard in your game folder.
-2. Vanguard’s **Bootstrapper** gets injected and kicks things off.
+1. Use the **Installer App** to set up Lunatic in your game folder.
+2. Lunatic’s **Bootstrapper** gets injected and kicks things off.
 3. The **Loader** looks for mods and fires them up.
 4. Mods do their thing — like adding new features or patches.
 
@@ -39,16 +39,16 @@ It has a modular design so you only get what you need — no weird magic, just s
 
 | Project                   | What it does                                   |
 |--------------------------|------------------------------------------------|
-| `Vanguard.Installer`      | The nice-looking app to install/uninstall mods.|
-| `Vanguard.Bootstrapper`   | Hooks into the game to start the Loader.       |
-| `Vanguard.Loader`         | Loads mods and libraries, applies Harmony patches.|
-| `Vanguard.Public`         | The public API mod developers will use.        |
+| `Lunatic.Installer`      | The nice-looking app to install/uninstall mods.|
+| `Lunatic.Bootstrapper`   | Hooks into the game to start the Loader.       |
+| `Lunatic.Loader`         | Loads mods and libraries, applies Harmony patches.|
+| `Lunatic.Public`         | The public API mod developers will use.        |
 
 ---
 
 ## 🧑‍💻 Making Your First Mod
 
-1. Reference `Vanguard.Public` in your mod project.
+1. Reference `Lunatic.Public` in your mod project.
 2. Create a class that implements `IModule`.
 3. Example:
 
@@ -65,22 +65,22 @@ public class MyCoolMod : IModule
 4. Drop your compiled `.dll` into the game’s `Mods` folder. That's it!
 
 There is a comprehensive TestModule in this repo.
-https://github.com/rmifka/Vanguard/blob/96d07e0e44c9c66a0dad0368d05f23c99230363e/Vanguard.TestModule/Module.cs#L6-L16
+https://github.com/rmifka/Lunatic/blob/96d07e0e44c9c66a0dad0368d05f23c99230363e/Lunatic.TestModule/Module.cs#L6-L16
 
 ---
 
-## 💻 Installing Vanguard
+## 💻 Installing Lunatic
 
-1. Run **Vanguard.Installer**.
+1. Run **Lunatic.Installer**.
 2. Pick your game folder.
-3. Hit **Install Vanguard**.
+3. Hit **Install Lunatic**.
 4. Done! Mods will load when you start the game.
 
 ---
 
-## 🧹 Uninstalling Vanguard
+## 🧹 Uninstalling Lunatic
 
-- Run the **Installer**, choose your game, and hit **Uninstall Vanguard**.  
+- Run the **Installer**, choose your game, and hit **Uninstall Lunatic**.  
 - It’ll clean up and restore backups.
 
 ---
@@ -93,7 +93,7 @@ https://github.com/rmifka/Vanguard/blob/96d07e0e44c9c66a0dad0368d05f23c99230363e
 
 ---
 
-## 💡 Why Vanguard?
+## 💡 Why Lunatic?
 
 - No complicated setup.
 - Easy to use and extend.
@@ -104,7 +104,7 @@ https://github.com/rmifka/Vanguard/blob/96d07e0e44c9c66a0dad0368d05f23c99230363e
 
 ## 🚧 Contributing
 
-If you have ideas or want to improve Vanguard, **PRs and issues are always welcome**!  
+If you have ideas or want to improve Lunatic, **PRs and issues are always welcome**!  
 Let’s keep it **simple and clean**, though — no unnecessary complexity.
 
 ---

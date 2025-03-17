@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <GameDir>A:\SteamLibrary\steamapps\common\Fears to Fathom - Woodbury Getaway</GameDir>
+        <ManagedDir>$(GameDir)\Fears to Fathom - Woodbury Getaway_Data\Managed</ManagedDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Lunatic.Public\Lunatic.Public.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="0Harmony">
+            <HintPath>$(GameDir)/Libraries\0Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="Assembly-CSharp">
+            <HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.TextMeshPro">
+            <HintPath>$(ManagedDir)\Unity.TextMeshPro.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>$(ManagedDir)\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+            <HintPath>$(ManagedDir)\UnityEngine.InputLegacyModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule">
+            <HintPath>$(ManagedDir)\UnityEngine.TextRenderingModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+            <HintPath>$(ManagedDir)\UnityEngine.UI.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UIElementsModule">
+            <HintPath>$(ManagedDir)\UnityEngine.UIElementsModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UIModule">
+            <HintPath>$(ManagedDir)\UnityEngine.UIModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <Target Name="CopyToGame" AfterTargets="Build">
+        <Copy SourceFiles="$(OutputPath)\Lunatic.TestModule.dll" DestinationFolder="$(GameDir)\Mods"/>
+    </Target>
+
+
+</Project>
