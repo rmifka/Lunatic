@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Delete Files="$(ProjectDir)../Lunatic.Installer/Resources/Lunatic.Bootstrapper.dll"/>
+        <Copy SourceFiles="$(OutputPath)Lunatic.Bootstrapper.dll"
+              DestinationFolder="$(ProjectDir)../Lunatic.Installer/Resources/"/>
+        <Copy SourceFiles="$(ProjectDir)../ExternalLibraries/0Harmony.dll"
+              DestinationFolder="$(ProjectDir)../Lunatic.Installer/ExternalLibraries/"/>
+    </Target>
+
+</Project>

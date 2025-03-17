@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Lunatic.Public\Lunatic.Public.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="0Harmony">
+        <HintPath>..\ExternalLibraries\0Harmony.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Delete Files="$(ProjectDir)../Lunatic.Installer/Resources/Lunatic.Loader.dll"/>
+
+        <Copy SourceFiles="$(OutputPath)Lunatic.Loader.dll"
+              DestinationFolder="$(ProjectDir)../Lunatic.Installer/Resources/"/>
+    </Target>
+
+</Project>

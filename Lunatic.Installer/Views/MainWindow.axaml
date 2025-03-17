@@ -1,0 +1,106 @@
+<controls:SukiWindow
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="https://github.com/kikipoulet/SukiUI"
+    xmlns:global="clr-namespace:"
+    Title="Lunatic Installer"
+    Width="500"
+    Height="600"
+    x:Class="Lunatic.Installer.Views.MainWindow"
+    x:DataType="global:MainWindowViewModel"
+    Background="#131313"
+    ExtendClientAreaToDecorationsHint="True"
+    ExtendClientAreaChromeHints="NoChrome"
+    ExtendClientAreaTitleBarHeightHint="32"
+    TransparencyLevelHint="AcrylicBlur"
+    CanResize="False"
+    WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <global:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Grid RowDefinitions="Auto, *" Margin="0">
+
+        <!-- Custom TopBar -->
+        <Border Background="#1E1E1E"
+                Height="32"
+                VerticalAlignment="Top"
+                PointerPressed="OnPointerPressed">
+            <Grid ColumnDefinitions="*, Auto, Auto, Auto"
+                  VerticalAlignment="Center"
+                  Margin="8,0,8,0">
+
+                <!-- App Title -->
+                <TextBlock Text="Lunatic Installer"
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           FontWeight="Medium"
+                           FontSize="14" />
+
+                <!-- Spacer -->
+                <Rectangle Grid.Column="1"
+                           Width="8"
+                           Fill="Transparent" />
+
+                <!-- Close Button -->
+                <Button Grid.Column="3"
+                        Content="X"
+                        FontSize="8"
+                        Command="{Binding CloseCommand}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center" />
+
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <StackPanel Grid.Row="1" Margin="20" Spacing="16">
+
+            <TextBlock Text="Lunatic Installer"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Foreground="White" />
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBox Text="{Binding GamePath, Mode=TwoWay}"
+                         Width="350"
+                         Watermark="Select game folder..." />
+                <Button Content="Browse" Command="{Binding BrowseCommand}" />
+            </StackPanel>
+
+            <TextBlock Text="{Binding Status}"
+                       Foreground="Gray"
+                       FontSize="14" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
+                <Button Content="Install Lunatic" Command="{Binding InstallCommand}" />
+                <Button Content="Uninstall Lunatic" Command="{Binding UninstallCommand}" />
+            </StackPanel>
+
+            <TextBlock Text="Log:" FontWeight="Bold" Foreground="White" />
+            <ScrollViewer Height="150">
+                <TextBlock Text="{Binding Log}" TextWrapping="Wrap" Foreground="White" />
+            </ScrollViewer>
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="16">
+                <TextBlock Text="Drag and Drop Mods Here" FontSize="16" FontWeight="Bold" Foreground="White"
+                           HorizontalAlignment="Center" />
+                <Border BorderBrush="Gray" CornerRadius="10" BorderThickness="2" Background="#1E1E1E" Padding="20"
+                        DragDrop.AllowDrop="True">
+                    <TextBlock Text="Drop files here" Foreground="Gray" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Border>
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                <Button Content="GitHub" Command="{Binding OpenGitHubCommand}" />
+                <Button Content="About" Command="{Binding AboutCommand}" />
+            </StackPanel>
+
+        </StackPanel>
+
+    </Grid>
+</controls:SukiWindow>

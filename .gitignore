@@ -4,4 +4,4 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .idea/
-/Vanguard.Installer/**/*.dll
+/Lunatic.Installer/**/*.dll

@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lunatic.Bootstrapper", "Lunatic.Bootstrapper\Lunatic.Bootstrapper.csproj", "{4A9A5043-1A13-45DF-B7BA-19E7AAD37BB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lunatic.Installer", "Lunatic.Installer\Lunatic.Installer.csproj", "{D877F7EE-725E-4988-9189-CA5EE3A4620E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lunatic.Loader", "Lunatic.Loader\Lunatic.Loader.csproj", "{AEDEC5FA-E94C-43AE-8C09-4AE21CB5E7A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lunatic.Public", "Lunatic.Public\Lunatic.Public.csproj", "{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lunatic.TestModule", "Lunatic.TestModule\Lunatic.TestModule.csproj", "{4D82A7C7-0A0C-4366-9D7F-E7CA1507D87E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A9A5043-1A13-45DF-B7BA-19E7AAD37BB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9A5043-1A13-45DF-B7BA-19E7AAD37BB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A9A5043-1A13-45DF-B7BA-19E7AAD37BB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A9A5043-1A13-45DF-B7BA-19E7AAD37BB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D877F7EE-725E-4988-9189-CA5EE3A4620E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D877F7EE-725E-4988-9189-CA5EE3A4620E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D877F7EE-725E-4988-9189-CA5EE3A4620E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D877F7EE-725E-4988-9189-CA5EE3A4620E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEDEC5FA-E94C-43AE-8C09-4AE21CB5E7A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEDEC5FA-E94C-43AE-8C09-4AE21CB5E7A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEDEC5FA-E94C-43AE-8C09-4AE21CB5E7A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEDEC5FA-E94C-43AE-8C09-4AE21CB5E7A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB41B7B4-FF80-4B85-AECE-4CFFB2812009}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D82A7C7-0A0C-4366-9D7F-E7CA1507D87E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D82A7C7-0A0C-4366-9D7F-E7CA1507D87E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D82A7C7-0A0C-4366-9D7F-E7CA1507D87E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D82A7C7-0A0C-4366-9D7F-E7CA1507D87E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
