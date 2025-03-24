@@ -1,4 +1,4 @@
-name: Build Vanguard Solution
+name: Build Lunatic Solution
 
 on:
   workflow_dispatch:
@@ -21,25 +21,25 @@ jobs:
           dotnet-version: 9.0.x
 
       - name: Restore dependencies
-        run: dotnet restore Vanguard.sln
+        run: dotnet restore Lunatic.sln
 
-      - name: Build Vanguard.Bootstrapper
-        run: dotnet build Vanguard.Bootstrapper/Vanguard.Bootstrapper.csproj --configuration Release
+      - name: Build Lunatic.Bootstrapper
+        run: dotnet build Lunatic.Bootstrapper/Lunatic.Bootstrapper.csproj --configuration Release
 
-      - name: Build Vanguard.Public
-        run: dotnet build Vanguard.Public/Vanguard.Public.csproj --configuration Release
+      - name: Build Lunatic.Public
+        run: dotnet build Lunatic.Public/Lunatic.Public.csproj --configuration Release
 
-      - name: Build Vanguard.Loader
-        run: dotnet build Vanguard.Loader/Vanguard.Loader.csproj --configuration Release
+      - name: Build Lunatic.Loader
+        run: dotnet build Lunatic.Loader/Lunatic.Loader.csproj --configuration Release
 
-      - name: Build Vanguard.Installer
-        run: dotnet publish Vanguard.Installer/Vanguard.Installer.csproj --configuration Release --self-contained --runtime ${{ matrix.architecture }}
+      - name: Build Lunatic.Installer
+        run: dotnet publish Lunatic.Installer/Lunatic.Installer.csproj --configuration Release --self-contained --runtime ${{ matrix.architecture }}
 
       - name: Create release directory
         run: mkdir -p release
 
       - name: Copy build artifacts
-        run: cp -r Vanguard.Installer/bin/Release/net9.0/${{ matrix.architecture }}/* release/
+        run: cp -r Lunatic.Installer/bin/Release/net9.0/${{ matrix.architecture }}/* release/
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
