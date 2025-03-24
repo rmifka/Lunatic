@@ -39,7 +39,7 @@ jobs:
         run: mkdir -p release
 
       - name: Copy build artifacts
-        run: cp -r Lunatic.Installer/bin/Release/net9.0/${{ matrix.architecture }}/* release/
+        run: cp -r Lunatic.Installer/bin/Release/net9.0/${{ matrix.architecture }}/publish/* release/
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
