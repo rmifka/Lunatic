@@ -7,11 +7,11 @@ namespace Lunatic.Bootstrapper
 {
     public static class Bootstrapper
     {
-        private readonly static string LibraryDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libraries");
+        private static readonly string LibraryDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libraries");
 
-        private static void LoadHarmony()
+        private static void LoadLibraries()
         {
-            var libFiles = Directory.GetFiles(LibraryDirectory, "0Harmony*.dll");
+            var libFiles = Directory.GetFiles(LibraryDirectory);
 
             foreach (var libPath in libFiles)
             {
@@ -46,7 +46,7 @@ namespace Lunatic.Bootstrapper
 
             try
             {
-                LoadHarmony();
+                LoadLibraries();
                 LunaticBootstrapperLogger.Log("Bootstrapper Initialized!");
 
                 var baseDir = AppDomain.CurrentDomain.BaseDirectory;
@@ -85,9 +85,9 @@ namespace Lunatic.Bootstrapper
             }
         }
 
-        public static class LunaticBootstrapperLogger
+        private static class LunaticBootstrapperLogger
         {
-            private readonly static string LogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lunatic_Logs",
+            private static readonly string LogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lunatic_Logs",
                 $"LunaticBootstrapper.{DateTime.Now:yyyy-MM-dd}.vlog");
 
             private static bool ShouldLog = true;

@@ -5,6 +5,10 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
         <Delete Files="$(ProjectDir)../Lunatic.Installer/Resources/Lunatic.Public.dll"/>
         <Copy SourceFiles="$(OutputPath)Lunatic.Public.dll"

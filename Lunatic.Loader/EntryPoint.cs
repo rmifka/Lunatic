@@ -11,10 +11,10 @@ namespace Lunatic.Loader;
 
 public class EntryPoint
 {
-    private readonly static ILunaticLogger LunaticLogger = new LunaticLogger();
-    private readonly static string ModuleDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Mods");
-    private readonly static string LibraryDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libraries");
-    private readonly static List<IModule> Modules = [];
+    private static readonly ILunaticLogger LunaticLogger = new LunaticLogger();
+    private static readonly string ModuleDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Mods");
+    private static readonly string LibraryDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libraries");
+    private static readonly List<IModule> Modules = [];
 
     public static void Initialize()
     {
@@ -94,5 +94,5 @@ public class EntryPoint
     }
 
 
-    private readonly static Harmony HarmonyInstance = new("com.Lunatic.Loader");
+    private static readonly Harmony HarmonyInstance = new("com.Lunatic.Loader");
 }
