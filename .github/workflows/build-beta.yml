@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         architecture: [ win-x64, win-x86, linux-x64 ]
@@ -32,8 +32,8 @@ jobs:
       - name: Build Lunatic.Loader
         run: dotnet build Lunatic.Loader/Lunatic.Loader.csproj --configuration Release
 
-      - name: Build Lunatic.Installer
-        run: dotnet publish Lunatic.Installer/Lunatic.Installer.csproj --configuration Release --self-contained --runtime ${{ matrix.architecture }}
+      - name: Build and Trim Lunatic.Installer
+        run: dotnet publish Lunatic.Installer/Lunatic.Installer.csproj --configuration Release --self-contained --runtime ${{ matrix.architecture }} -p:PublishTrimmed=true -p:TrimMode=link
 
       - name: Create release directory
         run: mkdir -p release
