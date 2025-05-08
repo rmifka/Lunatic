@@ -62,9 +62,4 @@
         </Content>
     </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Lunatic.Bootstrapper\Lunatic.Bootstrapper.csproj" />
-    </ItemGroup>
-
-
 </Project>

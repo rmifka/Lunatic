@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -9,7 +8,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using Lunatic.Bootstrapper;
 using Lunatic.Installer.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
@@ -64,7 +62,7 @@ public partial class MainWindowViewModel : ViewModelBase
             CopyLoader(loaderPath);
             CopyPublic(publicPath);
 
-            InjectBootstrapper(managedPath, assemblyPath);
+            InjectBootstrapper(managedPath, assemblyPath, bootstrapperPath);
 
             CopyExternalLibraries();
 
@@ -163,7 +161,7 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
-    private void InjectBootstrapper(string managedPath, string assemblyPath)
+    private void InjectBootstrapper(string managedPath, string assemblyPath, string bootstrapperPath)
     {
         var resolver = new DefaultAssemblyResolver();
         resolver.AddSearchDirectory(managedPath);
@@ -196,9 +194,16 @@ public partial class MainWindowViewModel : ViewModelBase
             var il = awakeMethod.Body.GetILProcessor();
             il.Append(il.Create(OpCodes.Ret));
         }
+        
+        var bootstrapperAssembly = AssemblyDefinition.ReadAssembly(bootstrapperPath);
 
-        var initMethod = module.ImportReference(typeof(Bootstrapper)
-            .GetMethod(nameof(Bootstrapper.Init)));
+        var bootstrapperType = bootstrapperAssembly.MainModule.Types
+            .First(t => t.Name == "Bootstrapper");
+
+        var initMethodDef = bootstrapperType.Methods
+            .First(m => m.Name == "Init" && m.Parameters.Count == 0);
+
+        var initMethod = module.ImportReference(initMethodDef);
 
         var processor = awakeMethod.Body.GetILProcessor();
         var firstInstruction = awakeMethod.Body.Instructions.First();
